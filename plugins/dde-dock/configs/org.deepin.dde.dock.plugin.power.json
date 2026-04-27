@@ -1,0 +1,28 @@
+{
+    "magic":"dsg.config.meta",
+    "version":"1.0",
+    "contents":{
+        "showTimeToFull":{
+            "value": true,
+            "serial": 0,
+            "flags": [],
+            "name": "showTimeToFull",
+            "name[zh_CN]": "显示完整时间",
+            "description[zh_CN]": "是否显示电池使用时间/剩余充电时间",
+            "description":"",
+            "permissions":"readwrite",
+            "visibility":"public"
+        },
+        "chargingProtectThreshold":{
+            "value": 80,
+            "serial": 0,
+            "flags": ["global"],
+            "name": "chargingProtectThreshold",
+            "name[zh_CN]": "充电保护电量阀值，范围[80-99]",
+            "description[zh_CN]": "充电保护状态触发的电量区间",
+            "description":"",
+            "permissions":"readwrite",
+            "visibility":"public"
+        }
+    }
+}

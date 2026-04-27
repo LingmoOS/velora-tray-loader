@@ -1,0 +1,69 @@
+// SPDX-FileCopyrightText: 2011 - 2022 UnionTech Software Technology Co., Ltd.
+//
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+#ifndef DATETIMEWIDGET_H
+#define DATETIMEWIDGET_H
+
+#include <QWidget>
+
+#include "timedate1interface.h"
+
+using Timedate1Inter = org::deepin::dde::Timedate1;
+
+class QLabel;
+class RegionFormat;
+class DatetimeWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit DatetimeWidget(RegionFormat *regionFormat, QWidget *parent = nullptr) ;
+
+    inline bool is24HourFormat() const { return m_24HourFormat; }
+    inline QString getDateTime() { return m_dateTime; }
+    void setDockPanelSize(const QSize &dockSize);
+    void dockPositionChanged();
+
+    void setRegionFormat(RegionFormat *newRegionFormat);
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+signals:
+    void requestUpdateGeometry() const;
+
+public slots:
+    void set24HourFormat(const bool value);
+    void updateDateTimeString();
+
+private Q_SLOTS:
+    void setWeekdayFormat(int type);
+
+private:
+    void initUI();
+    void adjustUI();
+    void adjustFontSize();
+    void updateDateTime();
+    void updateWeekdayFormat();
+
+private:
+    QLabel *m_timeLabel;
+    QLabel *m_dateLabel;
+    QLabel *m_apLabel;
+    QWidget *m_spacerItem;
+
+private:
+    bool m_24HourFormat;
+    int m_weekdayFormatType;
+    QString m_shortDateFormat;
+    QString m_dateTime;
+    QString m_weekFormat;
+    QSize m_dockSize;
+
+    Timedate1Inter *m_timedateInter;
+    RegionFormat *m_regionFormat;
+};
+
+#endif // DATETIMEWIDGET_H
