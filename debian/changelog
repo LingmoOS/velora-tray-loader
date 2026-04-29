@@ -1,3 +1,9 @@
+velora-tray-loader (2.0.30.lingmo.1) unstable; urgency=medium
+
+  * new release for Lingmo OS.
+
+ -- Lingmo OS Team <team@lingmo.org>  Wed, 29 Apr 2026 17:05:00 +0800
+
 dde-tray-loader (2.0.29+deb13u2) unstable; urgency=medium
 
   * drop the default Wayland plugin blacklist now that the Debian 13

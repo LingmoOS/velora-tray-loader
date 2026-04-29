@@ -1,7 +1,7 @@
-Source: dde-tray-loader
-Section: unknown
+Source: velora-tray-loader
+Section: lingmo
 Priority: optional
-Maintainer: Deepin Packages Builder <packages@deepin.com>
+Maintainer: Lingmo OS Team <team@lingmo.org>
 Build-Depends: debhelper-compat ( =12),
  pkg-config,
  cmake,
@@ -33,7 +33,7 @@ Build-Depends: debhelper-compat ( =12),
  libkf6windowsystem-dev,
  dde-api-dev (>>5.6.3)
 Standards-Version: 3.9.8
-Homepage: http://www.deepin.org/
+Homepage: https://github.com/LingmoOS/velora-tray-loader
 
 Package: dde-tray-loader
 Architecture: any
