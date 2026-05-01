@@ -38,7 +38,7 @@ Homepage: https://github.com/LingmoOS/velora-tray-loader
 Package: dde-tray-loader
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- deepin-desktop-schemas (>=5.9.14),
+ velora-desktop-schemas (>=5.9.14),
  libdtk6widget,
  libdtk6core,
  libdtk6gui,
