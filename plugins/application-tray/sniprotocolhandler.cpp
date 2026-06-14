@@ -218,9 +218,18 @@ QWidget* SniTrayProtocolHandler::tooltip() const
         const_cast<SniTrayProtocolHandler*>(this)->m_tooltip = new QLabel();
         m_tooltip->setForegroundRole(QPalette::BrightText);
     }
-    
-    if (!m_sniInter->toolTip().title.isEmpty()) {
-        m_tooltip->setText(m_sniInter->toolTip().title);
+
+    QString title = m_sniInter->toolTip().title;
+    // fix: 回退链 - ToolTip.title → 应用标题 → id，避免返回空 widget 显示灰色方块
+    if (title.isEmpty()) {
+        title = m_sniInter->title();
+    }
+    if (title.isEmpty()) {
+        title = id();
+    }
+
+    if (!title.isEmpty()) {
+        m_tooltip->setText(title);
         return m_tooltip;
     }
 
@@ -291,8 +300,8 @@ bool SniTrayProtocolHandler::eventFilter(QObject *watched, QEvent *event)
                 m_sniInter->Activate(0, 0);
             } else if (mouseEvent->button() == Qt::RightButton) {
                 auto menu = menuImporter()->menu();
-                Q_CHECK_PTR(menu);
-                if (menu->isEmpty()) {
+                // fix: Q_CHECK_PTR 在 menu 为空时会 abort/崩溃，改为安全检查
+                if (!menu || menu->isEmpty()) {
                     m_sniInter->ContextMenu(0, 0);
                     return false;
                 }
