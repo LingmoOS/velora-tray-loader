@@ -1,5 +1,5 @@
 Source: velora-tray-loader
-Section: lingmo
+Section: unknown
 Priority: optional
 Maintainer: Lingmo OS Team <team@lingmo.org>
 Build-Depends: debhelper-compat ( =12),
@@ -32,13 +32,13 @@ Build-Depends: debhelper-compat ( =12),
  libxcursor-dev,
  libkf6windowsystem-dev,
  dde-api-dev (>>5.6.3)
-Standards-Version: 3.9.8
-Homepage: https://github.com/LingmoOS/velora-tray-loader
+Standards-Version: 4.5.6
+Homepage: http://lingmo.org/
 
-Package: dde-tray-loader
+Package: velora-tray-loader
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- velora-desktop-schemas (>=5.9.14),
+ deepin-desktop-schemas (>=5.9.14),
  libdtk6widget,
  libdtk6core,
  libdtk6gui,
@@ -55,7 +55,7 @@ Replaces:
 Description: deepin desktop-environment - the plugins of tray for dde-dock
  Tray plugins module
 
-Package: dde-tray-loader-dev
+Package: velora-tray-loader-dev
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts:

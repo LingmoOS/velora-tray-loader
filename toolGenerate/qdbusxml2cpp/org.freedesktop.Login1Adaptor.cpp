@@ -8,7 +8,7 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#include "./dde-tray-loader/toolGenerate/qdbusxml2cpp/org.freedesktop.Login1Adaptor.h"
+#include "./velora-tray-loader/toolGenerate/qdbusxml2cpp/org.freedesktop.Login1Adaptor.h"
 #include <QtCore/QMetaObject>
 #include <QtCore/QByteArray>
 #include <QtCore/QList>

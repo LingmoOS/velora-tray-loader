@@ -8,6 +8,7 @@
 
 #include "util.h"
 #include "plugin.h"
+#include "xdgactivation.h"
 
 #include "dbusmenuimporter.h"
 
@@ -17,6 +18,8 @@
 #include <QRunnable>
 
 #include <DGuiApplicationHelper>
+#include <private/qobject_p.h>
+#include <private/qmenu_p.h>
 
 DGUI_USE_NAMESPACE
 
@@ -32,6 +35,12 @@ public:
     {
         QObject::connect(this, &DBusMenuImporter::menuUpdated, this, [this] (QMenu *menu) {
             menu->setFixedSize(menu->sizeHint());
+            // TODO 删除 QMenu 的滚动功能，修复首次子菜单显示滚动指示器问题
+            if (auto dp = static_cast<QMenuPrivate*>(QObjectPrivate::get(menu))) {
+                if (auto scroll = dp->scroll) {
+                    scroll->scrollFlags = QMenuPrivate::QMenuScroller::ScrollNone;
+                }
+            }
         }, Qt::QueuedConnection);
     }
     virtual QMenu *createMenu(QWidget *parent) override
@@ -145,14 +154,24 @@ SniTrayProtocolHandler::SniTrayProtocolHandler(const QString &sniServicePath, QO
     m_sniInter->setTimeout(2000);
     init();
 
-    connect(m_sniInter, &StatusNotifierItem::NewIcon, this, &SniTrayProtocolHandler::iconChanged);
-    connect(m_sniInter, &StatusNotifierItem::NewOverlayIcon, this, &SniTrayProtocolHandler::overlayIconChanged);
+    connect(m_sniInter, &StatusNotifierItem::NewIcon, this, [this] {
+        if (m_sniInter->iconName().isEmpty())
+            m_cachedIcon = dbusImageList2QIcon(m_sniInter->iconPixmap());
+        Q_EMIT iconChanged();
+    });
+    connect(m_sniInter, &StatusNotifierItem::NewOverlayIcon, this, [this] {
+        if (m_sniInter->overlayIconName().isEmpty())
+            m_cachedOverlayIcon = dbusImageList2QIcon(m_sniInter->overlayIconPixmap());
+        Q_EMIT overlayIconChanged();
+    });
     connect(m_sniInter, &StatusNotifierItem::NewAttentionIcon, this, [this] {
         if (m_ignoreFirstAttention) {
             m_ignoreFirstAttention = false;
             return;
         }
 
+        if (m_sniInter->attentionIconName().isEmpty())
+            m_cachedAttentionIcon = dbusImageList2QIcon(m_sniInter->attentionIconPixmap());
         Q_EMIT attentionIconChanged();
     });
 
@@ -161,12 +180,19 @@ SniTrayProtocolHandler::SniTrayProtocolHandler(const QString &sniServicePath, QO
     connect(m_sniInter, &StatusNotifierItem::NewToolTip, this, &SniTrayProtocolHandler::tooltiChanged);
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [this](DGuiApplicationHelper::ColorType themeType) {
         Q_UNUSED(themeType)
-        menuImporter()->updateMenu(true);
+        if (auto menu = menuImporter()) {
+            menu->updateMenu(true);
+        }
     });
 }
 
 SniTrayProtocolHandler::~SniTrayProtocolHandler()
 {
+    if (m_tooltip) {
+        delete m_tooltip;
+        m_tooltip = nullptr;
+    }
+
     UTIL->removeUniqueId(m_id);
 }
 
@@ -174,6 +200,9 @@ void SniTrayProtocolHandler::init()
 {
     generateId();
     m_menuPath = m_sniInter->menu().path();
+    m_cachedIcon = dbusImageList2QIcon(m_sniInter->iconPixmap());
+    m_cachedAttentionIcon = dbusImageList2QIcon(m_sniInter->attentionIconPixmap());
+    m_cachedOverlayIcon = dbusImageList2QIcon(m_sniInter->overlayIconPixmap());
 }
 
 void SniTrayProtocolHandler::generateId()
@@ -186,6 +215,9 @@ DBusMenuImporter *SniTrayProtocolHandler::menuImporter() const
 {
     if (!m_dbusMenuImporter) {
         auto that = const_cast<SniTrayProtocolHandler *>(this);
+        if (that->m_menuPath == QLatin1String("/NO_DBUSMENU")) {
+            return nullptr;
+        }
         that->m_dbusMenuImporter = new DBusMenu(m_service, m_menuPath, that);
     }
     return m_dbusMenuImporter;
@@ -218,18 +250,9 @@ QWidget* SniTrayProtocolHandler::tooltip() const
         const_cast<SniTrayProtocolHandler*>(this)->m_tooltip = new QLabel();
         m_tooltip->setForegroundRole(QPalette::BrightText);
     }
-
-    QString title = m_sniInter->toolTip().title;
-    // fix: 回退链 - ToolTip.title → 应用标题 → id，避免返回空 widget 显示灰色方块
-    if (title.isEmpty()) {
-        title = m_sniInter->title();
-    }
-    if (title.isEmpty()) {
-        title = id();
-    }
-
-    if (!title.isEmpty()) {
-        m_tooltip->setText(title);
+    
+    if (!m_sniInter->toolTip().title.isEmpty()) {
+        m_tooltip->setText(m_sniInter->toolTip().title);
         return m_tooltip;
     }
 
@@ -248,8 +271,7 @@ QIcon SniTrayProtocolHandler::overlayIcon() const
         return QIcon::fromTheme(iconName);
     }
 
-    auto icon = dbusImageList2QIcon(m_sniInter->overlayIconPixmap());
-    return icon;
+    return m_cachedOverlayIcon;
 }
 
 QIcon SniTrayProtocolHandler::attentionIcon() const
@@ -259,8 +281,7 @@ QIcon SniTrayProtocolHandler::attentionIcon() const
         return QIcon::fromTheme(iconName);
     }
 
-    auto icon = dbusImageList2QIcon(m_sniInter->attentionIconPixmap());
-    return icon;
+    return m_cachedAttentionIcon;
 }
 
 QIcon SniTrayProtocolHandler::icon() const
@@ -283,7 +304,7 @@ QIcon SniTrayProtocolHandler::icon() const
         }
     }
 
-    return dbusImageList2QIcon(m_sniInter->iconPixmap());
+    return m_cachedIcon;
 }
 
 bool SniTrayProtocolHandler::enabled() const
@@ -297,20 +318,42 @@ bool SniTrayProtocolHandler::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonRelease) {
             QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
             if (mouseEvent->button() == Qt::LeftButton) {
-                m_sniInter->Activate(0, 0);
+                auto *activation = new XdgActivation(this);
+                if (activation->isActive()) {
+                    auto *win = window()->windowHandle();
+                    if (!win) {
+                        activation->deleteLater();
+                        return false;
+                    }
+
+                    auto sniInter = m_sniInter;
+                    connect(activation, &XdgActivation::tokenReady, this, [sniInter, activation](const QString &token) {
+                        if (!token.isEmpty()) {
+                            sniInter->ProvideXdgActivationToken(token);
+                        }
+                        sniInter->Activate(0, 0);
+                        activation->deleteLater();
+                    }, Qt::SingleShotConnection);
+                    activation->requestToken(win);
+                } else {
+                    m_sniInter->Activate(0, 0);
+                    activation->deleteLater();
+                }
             } else if (mouseEvent->button() == Qt::RightButton) {
-                auto menu = menuImporter()->menu();
-                // fix: Q_CHECK_PTR 在 menu 为空时会 abort/崩溃，改为安全检查
-                if (!menu || menu->isEmpty()) {
+                if (!menuImporter()) {
                     m_sniInter->ContextMenu(0, 0);
                     return false;
                 }
 
+                auto menu = menuImporter()->menu();
                 menu->setFixedSize(menu->sizeHint());
                 menu->winId();
 
-                auto widget = static_cast<QWidget*>(parent());
-                auto plugin = Plugin::EmbedPlugin::get(widget->window()->windowHandle());
+                auto *win = window()->windowHandle();
+                if (!win)
+                    return false;
+
+                auto plugin = Plugin::EmbedPlugin::get(win);
                 auto geometry = plugin->pluginPos();
                 auto pluginPopup = Plugin::PluginPopup::get(menu->windowHandle());
                 pluginPopup->setPluginId("application-tray");
@@ -344,18 +387,19 @@ QPair<QString, QString> SniTrayProtocolHandler::serviceAndPath(const QString &se
 QIcon SniTrayProtocolHandler::dbusImageList2QIcon(const DBusImageList &dbusImageList)
 {
     QIcon res;
-    if (!dbusImageList.isEmpty() && !dbusImageList.first().pixels.isEmpty()) {
-        for (auto image = dbusImageList.begin(); image < dbusImageList.end(); image++) {
-            const char *image_data = image->pixels.data();
-            if (QSysInfo::ByteOrder == QSysInfo::LittleEndian) {
-                for (int i = 0; i < image->pixels.size(); i += 4) {
-                    *(qint32 *)(image_data + i) = qFromBigEndian(*(qint32 *)(image_data + i));
-                }
-            }
+    if (dbusImageList.isEmpty() || dbusImageList.first().pixels.isEmpty())
+        return res;
 
-            QImage qimage((const uchar *)image->pixels.constData(), image->width, image->height, QImage::Format_ARGB32);
-            res.addPixmap(QPixmap::fromImage(qimage));
+    DBusImageList copy = dbusImageList;
+    for (auto &image : copy) {
+        if (QSysInfo::ByteOrder == QSysInfo::LittleEndian) {
+            quint32 *pixels = reinterpret_cast<quint32 *>(image.pixels.data());
+            for (int i = 0; i < image.pixels.size() / 4; i++)
+                pixels[i] = qFromBigEndian(pixels[i]);
         }
+
+        QImage qimage(reinterpret_cast<const uchar *>(image.pixels.constData()), image.width, image.height, QImage::Format_ARGB32);
+        res.addPixmap(QPixmap::fromImage(qimage));
     }
 
     return res;

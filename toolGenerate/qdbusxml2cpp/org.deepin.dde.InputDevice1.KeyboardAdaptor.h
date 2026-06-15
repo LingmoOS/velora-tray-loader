@@ -14,7 +14,7 @@
 
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
-#include "./dde-tray-loader/toolGenerate/qdbusxml2cpp/org.deepin.dde.InputDevice1.Keyboard.h"
+#include "./velora-tray-loader/toolGenerate/qdbusxml2cpp/org.deepin.dde.InputDevice1.Keyboard.h"
 QT_BEGIN_NAMESPACE
 class QByteArray;
 template<class T> class QList;

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+# SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -8,10 +8,10 @@ cmake_policy(SET CMP0160 OLD)
 set(DTL_VERSION "2.0.99" CACHE STRING "Define project version")
 set(DOCK_VERSION "6.0.37" CACHE STRING "Dock compatible version")
 
-project(dde-tray-loader
+project(velora-tray-loader
     VERSION "${DTL_VERSION}"
-    DESCRIPTION "dde-tray-loader"
-    HOMEPAGE_URL "https://github.com/linuxdeepin/dde-tray-loader"
+    DESCRIPTION "velora-tray-loader"
+    HOMEPAGE_URL "https://github.com/linuxdeepin/velora-tray-loader"
     LANGUAGES CXX C
 )
 
@@ -27,7 +27,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
 
-set(DTL_BUILD_WITH_QT6 ON CACHE BOOL "Build dde-tray-loader with Qt6")
+set(DTL_BUILD_WITH_QT6 ON CACHE BOOL "Build velora-tray-loader with Qt6")
 
 if (DTL_BUILD_WITH_QT6)
     set(QT_VERSION_MAJOR 6)
@@ -39,6 +39,9 @@ endif()
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+
+find_package(PkgConfig REQUIRED)
+pkg_get_variable(WAYLAND_PROTOCOLS_DATADIR wayland-protocols pkgdatadir)
 
 add_subdirectory(plugins)
 add_subdirectory(src)
@@ -55,10 +58,10 @@ install(FILES ${INTERFACES}
 ## protocol
 file(GLOB PROTOCOL "src/protocol/*.xml")
 install(FILES ${PROTOCOL}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/dde-tray-loader/protocol)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/velora-tray-loader/protocol)
 
-configure_file(dde-tray-loader.pc.in ${CMAKE_BINARY_DIR}/dde-tray-loader.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/dde-tray-loader.pc
+configure_file(velora-tray-loader.pc.in ${CMAKE_BINARY_DIR}/velora-tray-loader.pc @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/velora-tray-loader.pc
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 configure_file(

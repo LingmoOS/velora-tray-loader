@@ -127,6 +127,7 @@ XembedProtocolHandler::XembedProtocolHandler(const uint32_t& id, QObject* parent
     : AbstractTrayProtocolHandler(parent)
     , m_enabled(false)
     , m_windowId(id)
+    , m_containerWid(0)
     , m_hoverTimer(new QTimer(this))
     , m_attentionTimer(new QTimer(this))
     , m_iconUpdateTimer(new QTimer(this))
@@ -159,6 +160,9 @@ XembedProtocolHandler::XembedProtocolHandler(const uint32_t& id, QObject* parent
 
 XembedProtocolHandler::~XembedProtocolHandler()
 {
+    if (m_containerWid) {
+        xcb_destroy_window(Util::instance()->getX11Connection(), m_containerWid);
+    }
     UTIL->removeUniqueId(m_id);
 }
 
@@ -280,7 +284,7 @@ void XembedProtocolHandler::initX11resources()
     xcb_flush(c);
 
     auto waCookie = xcb_get_window_attributes(c, m_windowId);
-    QSharedPointer<xcb_get_window_attributes_reply_t> windowAttributes(xcb_get_window_attributes_reply(c, waCookie, nullptr));
+    QSharedPointer<xcb_get_window_attributes_reply_t> windowAttributes(xcb_get_window_attributes_reply(c, waCookie, nullptr), [](xcb_get_window_attributes_reply_t* ptr){ free(ptr); });
     if (windowAttributes && !(windowAttributes->all_event_masks & XCB_EVENT_MASK_BUTTON_PRESS)) {
         m_injectMode = XTest;
     }
@@ -395,7 +399,7 @@ void XembedProtocolHandler::sendClick(uint8_t qMouseButton)
     auto dis = UTIL->getDisplay();
 
     auto cookieSize = xcb_get_geometry(c, m_windowId);
-    QSharedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookieSize, nullptr));
+    QSharedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookieSize, nullptr), [](xcb_get_geometry_reply_t* ptr){ free(ptr); });
 
     if (!clientGeom) {
         return;

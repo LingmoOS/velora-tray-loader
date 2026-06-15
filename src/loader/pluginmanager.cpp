@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -49,9 +49,13 @@ QVector<PluginsItemInterface *> PluginManager::loadedPlugins() const
 void PluginManager::loadPlugin(const QString &pluginFilePath)
 {
     QStringList blacklistedPluginPaths;
-    const auto envBlacklist = qEnvironmentVariable("DDE_TRAY_LOADER_BLACKLIST").trimmed();
-    if (!envBlacklist.isEmpty()) {
-        blacklistedPluginPaths = envBlacklist.split(':', Qt::SkipEmptyParts);
+    // TODO: use dconfig for this purpose.
+    if (qgetenv("XDG_SESSION_TYPE") == "wayland") {
+        blacklistedPluginPaths.append(QStringList{
+            "libshot-start-record-plugin.so",
+            "libdeepin-screen-recorder-plugin.so",
+            "libeye-comfort-mode.so",
+        });
     }
     for (const QString &path : blacklistedPluginPaths) {
         if (pluginFilePath.endsWith(path)) {

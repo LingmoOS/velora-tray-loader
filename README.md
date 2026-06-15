@@ -1,6 +1,6 @@
-# dde-tray-loader
+# velora-tray-loader
 
-The `dde-tray-loader` project provides a set of tray plugins that integrated into task bar and the tool loader which can load the plugins.
+The `velora-tray-loader` project provides a set of tray plugins that integrated into task bar and the tool loader which can load the plugins.
 
 ## Dependencies
 
@@ -15,8 +15,8 @@ $ cmake -Bbuild
 $ cmake --build build
 ```
 
-After building, a `dde-tray-loader` binary can be found inside the build folder, you can run it
-by `dde-tray-loader -p xxx.so` to start an example. And you can optionally install it by:
+After building, a `velora-tray-loader` binary can be found inside the build folder, you can run it
+by `velora-tray-loader -p xxx.so` to start an example. And you can optionally install it by:
 
 ```shell
 $ cmake --install build # only do this if you know what you are doing
@@ -36,4 +36,4 @@ $ dpkg-buildpackage -uc -us -nc -b # build binary package(s)
 
 ## License
 
-**dde-tray-loader** is licensed under [GPL-3.0-or-later](LICENSE).
+**velora-tray-loader** is licensed under [GPL-3.0-or-later](LICENSE).

@@ -1,6 +1,6 @@
-# dde-tray-loader
+# velora-tray-loader
 
-dde-tray-loader项目提供一套任务栏的托盘插件以及加载插件的工具。
+velora-tray-loader项目提供一套任务栏的托盘插件以及加载插件的工具。
 
 ## 依赖
 
@@ -15,7 +15,7 @@ $ cmake -Bbuild
 $ cmake --build build
 ```
 
-构建完毕后，将可在构建目录内获得名为 `dde-tray-loader` 的二进制文件，可以执行`dde-tray-loader -p xxx.so`来运行托盘插件。此时你也可以通过如下方式进行安装：
+构建完毕后，将可在构建目录内获得名为 `velora-tray-loader` 的二进制文件，可以执行`velora-tray-loader -p xxx.so`来运行托盘插件。此时你也可以通过如下方式进行安装：
 
 ```shell
 $ cmake --install build # 当你知道这条命令的作用时再执行它
@@ -35,4 +35,4 @@ $ dpkg-buildpackage -uc -us -nc -b # 构建二进制软件包
 
 ## 许可协议
 
-**dde-tray-loader** 使用 [GPL-3.0-or-later](LICENSE) 许可协议进行发布。
+**velora-tray-loader** 使用 [GPL-3.0-or-later](LICENSE) 许可协议进行发布。

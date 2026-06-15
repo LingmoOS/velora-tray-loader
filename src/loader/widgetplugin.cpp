@@ -39,6 +39,11 @@ public:
             QMetaObject::invokeMethod(this, [this, pos] () {
                 updateToolTipPosition(pos);
             }, Qt::QueuedConnection);
+        } else if (event->type() == QEvent::CursorChange) {
+            auto widget = qobject_cast<QWidget*>(watched);
+            if (widget) {
+                handleCursorChange(widget);
+            }
         }
         return false;
     }
@@ -67,6 +72,17 @@ private:
         }
     }
 
+    void handleCursorChange(QWidget *widget)
+    {
+        if (!widget || !widget->window() || !widget->window()->windowHandle())
+            return;
+
+        auto windowHandle = widget->window()->windowHandle();
+        if (auto pluginPopup = Plugin::PluginPopup::getWithoutCreating(windowHandle)) {
+            Qt::CursorShape cursorShape = windowHandle->cursor().shape();
+            Q_EMIT pluginPopup->requestSetCursor(static_cast<int>(cursorShape));
+        }
+    }
 };
 }
 
@@ -99,7 +115,6 @@ WidgetPlugin::~WidgetPlugin()
 void WidgetPlugin::itemAdded(PluginsItemInterface * const itemInter, const QString &itemKey)
 {
     qDebug() << "itemAdded:" << itemKey;
-    const bool isXWindowPlatform = DGuiApplicationHelper::testAttribute(DGuiApplicationHelper::IsXWindowPlatform);
     auto flag = getPluginFlags();
     if (flag & Dock::Type_Quick) {
         if (!Plugin::EmbedPlugin::contains(itemInter->pluginName(), Plugin::EmbedPlugin::Quick)) {
@@ -114,10 +129,7 @@ void WidgetPlugin::itemAdded(PluginsItemInterface * const itemInter, const QStri
             plugin->setItemKey(Dock::QUICK_ITEM_KEY);
             plugin->setPluginType(Plugin::EmbedPlugin::Quick);
             plugin->setPluginSizePolicy(itemInter->pluginSizePolicy());
-            item->adjustSize();
-            if (item->windowHandle() && isXWindowPlatform) {
-                item->windowHandle()->hide();
-            }
+            item->windowHandle()->hide();
             item->show();
         } else {
             auto quickItem = m_pluginsItemInterface->itemWidget(Dock::QUICK_ITEM_KEY);
@@ -149,10 +161,7 @@ void WidgetPlugin::itemAdded(PluginsItemInterface * const itemInter, const QStri
                 const QString path = DCCIconPath + itemInter->pluginName() + ".svg";
                 plugin->setDccIcon(path);
             }
-            item->adjustSize();
-            if (item->windowHandle() && isXWindowPlatform) {
-                item->windowHandle()->hide();
-            }
+            item->windowHandle()->hide();
             item->show();
         } else {
             auto trayItem = m_pluginsItemInterface->itemWidget(itemKey);
@@ -179,10 +188,7 @@ void WidgetPlugin::itemAdded(PluginsItemInterface * const itemInter, const QStri
                 const QString path = DCCIconPath + itemInter->pluginName() + ".svg";
                 plugin->setDccIcon(path);
             }
-            item->adjustSize();
-            if (item->windowHandle() && isXWindowPlatform) {
-                item->windowHandle()->hide();
-            }
+            item->windowHandle()->hide();
             item->show();
         }
     }
@@ -287,6 +293,7 @@ void WidgetPlugin::requestSetAppletVisible(PluginsItemInterface * const itemInte
         pluginPopup->setItemKey(itemKey);
         pluginPopup->setPopupType(Plugin::PluginPopup::PopupTypeEmbed);
         appletWidget->show();
+        appletWidget->setFocus();
     }
 }
 
@@ -329,6 +336,7 @@ void WidgetPlugin::updateDockContainerState(PluginsItemInterface *itemInter, boo
 
 void WidgetPlugin::onDockColorThemeChanged(uint32_t type)
 {
+    qDebug() << "onDockColorThemeChanged:" << type;
     DGuiApplicationHelper::instance()->setPaletteType(static_cast<DGuiApplicationHelper::ColorType>(type));
 }
 

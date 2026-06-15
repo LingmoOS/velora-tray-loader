@@ -1,14 +1,16 @@
-// SPDX-FileCopyrightText: 2024 UnionTech Software Technology Co., Ltd.
+// SPDX-FileCopyrightText: 2024 - 2026 UnionTech Software Technology Co., Ltd.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
 
+#include <QByteArray>
 #include <QHash>
 #include <QImage>
 #include <QSharedPointer>
 #include <QSet>
 #include <QObject>
+#include <QMutex>
 
 #include <cstdint>
 #include <sys/types.h>
@@ -40,8 +42,10 @@ public:
     void setX11WindowSize(const xcb_window_t& window, const QSize& size);
     [[nodiscard]] QRect getX11WindowGeometry(const xcb_window_t& window) const;
     QString getX11WindowName(const xcb_window_t& window);
+    bool isValidX11Window(const xcb_window_t& window) const;
     void setX11WindowInputShape(const xcb_window_t& widnow, const QSize& size);
     QImage getX11WindowImageNonComposite(const xcb_window_t& window);
+    bool getX11WindowPixmapData(const xcb_window_t& window, QByteArray *data);
     void setX11WindowOpacity(const xcb_window_t& window, const double& opacity);
     pid_t getWindowPid(const xcb_window_t& window);
     QString getProcExe(const pid_t& pid);
@@ -78,6 +82,7 @@ private:
     _XDisplay *m_display;
 
     QSet<QString> m_currentIds;
+    QMutex m_idMutex;
 };
 
 }
