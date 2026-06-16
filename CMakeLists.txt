@@ -9,9 +9,9 @@ set(DTL_VERSION "2.0.99" CACHE STRING "Define project version")
 set(DOCK_VERSION "6.0.37" CACHE STRING "Dock compatible version")
 
 project(velora-tray-loader
-    VERSION "${DTL_VERSION}"
+    VERSION "2.0.35"
     DESCRIPTION "velora-tray-loader"
-    HOMEPAGE_URL "https://github.com/linuxdeepin/velora-tray-loader"
+    HOMEPAGE_URL "https://github.com/LingmoOS/velora-tray-loader"
     LANGUAGES CXX C
 )
 
