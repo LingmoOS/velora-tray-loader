@@ -136,7 +136,7 @@ const QString ShutdownPlugin::itemContextMenu(const QString &itemKey)
         MENU_POWER_SETTINGS
     };
 
-    if (m_dconfig.data()->isValid()) {
+    if (m_dconfig && m_dconfig->isValid()) {
         contextMenu = m_dconfig->value("contextMenu", contextMenu).toStringList();
     }
 

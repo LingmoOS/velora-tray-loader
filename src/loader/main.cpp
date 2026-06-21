@@ -28,28 +28,30 @@
 DGUI_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
-static QString pluginDisplayName;
+static char pluginDisplayNameC[256] = {0};
 
 void sig_crash(int signum)
 {
-    Q_UNUSED(signum)
-    DDBusSender()
-        .service("org.deepin.dde.Notification1")
-        .path("/org/deepin/dde/Notification1")
-        .interface("org.deepin.dde.Notification1")
-        .method(QString("Notify"))
-        .arg(QString("dde-control-center"))
-        .arg(static_cast<uint>(0))
-        .arg(QString("preferences-system"))
-        .arg(QString("Tray Plugin Crashed!"))
-        .arg(QString("%1 plugin is crashed").arg(pluginDisplayName))
-        .arg(QStringList())
-        .arg(QVariantMap())
-        .arg(2000)
-        .call();
+    // Only use async-signal-safe operations here
+    const char prefix[] = "Tray plugin crashed (signal ";
+    char buf[384];
+    size_t pos = 0;
+    while (pos < sizeof(prefix) - 1 && prefix[pos]) { buf[pos] = prefix[pos]; pos++; }
+    // append signal number as decimal
+    int n = signum;
+    if (n >= 100) { buf[pos++] = '0' + n / 100; n %= 100; }
+    if (n >= 10)  { buf[pos++] = '0' + n / 10; n %= 10; }
+    buf[pos++] = '0' + n;
+    buf[pos++] = ')';
+    buf[pos++] = ':';
+    buf[pos++] = ' ';
+    // append plugin display name if set
+    int i = 0;
+    while (i < 255 && pluginDisplayNameC[i]) { buf[pos++] = pluginDisplayNameC[i++]; }
+    buf[pos++] = '\n';
+    write(STDERR_FILENO, buf, pos);
 
 #ifndef QT_DEBUG
-    // 重新触发信号，产生coredump
     signal(signum, SIG_DFL);
     raise(signum);
 #endif
@@ -190,6 +192,12 @@ int main(int argc, char *argv[], char *envp[])
     app.setApplicationName(pluginGroupName);
     app.setApplicationDisplayName(pluginGroupName);
     setproctitle((QStringLiteral("tray plugin: ") + pluginGroupName).toStdString().c_str());
+    {
+        QByteArray name = pluginGroupName.toLocal8Bit();
+        int copyLen = qMin(name.size(), 255);
+        memcpy(pluginDisplayNameC, name.constData(), copyLen);
+        pluginDisplayNameC[copyLen] = '\0';
+    }
     qunsetenv("QT_SCALE_FACTOR");
     for (auto iter = oldEnvs.begin(); iter != oldEnvs.end(); iter++) {
         if (iter.value().isEmpty()) {

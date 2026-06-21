@@ -255,7 +255,7 @@ void PowerPlugin::refreshPluginItemsVisible()
 void PowerPlugin::onDConfigValueChanged(const QString &key)
 {
 
-    if (!m_config->isValid()) {
+    if (!m_config || !m_config->isValid()) {
         return;
     }
     if (key == "showTimeToFull") {

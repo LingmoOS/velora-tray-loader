@@ -117,8 +117,8 @@ bool SoundController::existActiveOutputDevice() const
         return true;
     }
 
-    if (m_dconfig.data()->isValid()) {
-       bool enableAdjustVolumeNoCard = m_dconfig.data()->value("enableAdjustVolumeNoCard", false).toBool();
+    if (m_dconfig && m_dconfig->isValid()) {
+       bool enableAdjustVolumeNoCard = m_dconfig->value("enableAdjustVolumeNoCard", false).toBool();
        if (enableAdjustVolumeNoCard) {
            return m_defaultSinkInter;
        }
