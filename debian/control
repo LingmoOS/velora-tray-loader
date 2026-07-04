@@ -35,26 +35,6 @@ Build-Depends: debhelper-compat ( =12),
 Standards-Version: 4.5.6
 Homepage: http://lingmo.org/
 
-Package: velora-tray-loader
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},
-         velora-desktop-schemas (>=5.9.14),
-         libdtk6widget,
-         libdtk6core,
-         libdtk6gui,
-         dde-qt6xcb-plugin,
-         libkf6windowsystem6,
-         dde-daemon (>=6.1.26),
-         lastore-daemon (>=5.2.9),
-Conflicts:
-         dde-dock,
-         dde-dock-onboard-plugin
-Replaces:
-         dde-dock,
-         dde-dock-onboard-plugin
-Description: deepin desktop-environment - the plugins of tray for dde-dock
- Tray plugins module
-
 Package: velora-tray-loader-dev
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
