@@ -31,7 +31,7 @@ DatetimeWidget::DatetimeWidget(RegionFormat* regionFormat, QWidget *parent)
     , m_shortDateFormat("yyyy-MM-dd")
     , m_weekFormat(DEFAULT_WEEK_FORMAT)
     , m_dockSize(QSize(1920, 37))
-    , m_timedateInter(new Timedate1Inter("org.deepin.dde.Timedate1", "/org/deepin/dde/Timedate1", QDBusConnection::sessionBus(), this))
+    , m_timedateInter(new Timedate1Inter("org.lingmo.Timedate1", "/org/lingmo/Timedate1", QDBusConnection::sessionBus(), this))
     , m_regionFormat(regionFormat)
 {
     initUI();

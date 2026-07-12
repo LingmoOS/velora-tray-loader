@@ -31,7 +31,7 @@ DWIDGET_END_NAMESPACE
 
 DWIDGET_USE_NAMESPACE
 
-using DBusAirplaneMode = org::deepin::dde::AirplaneMode1;
+using DBusAirplaneMode = org::lingmo::AirplaneMode1;
 
 class SettingLabel : public QWidget
 {

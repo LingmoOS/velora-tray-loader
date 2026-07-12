@@ -32,7 +32,7 @@ static QString xembedPfrefix = QStringLiteral("XEMBED:");
 
 XembedProtocol::XembedProtocol(QObject *parent)
     : AbstractTrayProtocol(parent)
-    , m_trayManager(new TrayManager("org.deepin.dde.TrayManager1", "/org/deepin/dde/TrayManager1", QDBusConnection::sessionBus(), this))
+    , m_trayManager(new TrayManager("org.lingmo.TrayManager1", "/org/lingmo/TrayManager1", QDBusConnection::sessionBus(), this))
 {
     qApp->installNativeEventFilter(this);
 

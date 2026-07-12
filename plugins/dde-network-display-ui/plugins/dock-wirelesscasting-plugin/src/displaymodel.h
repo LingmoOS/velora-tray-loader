@@ -9,7 +9,7 @@
 
 #include <QObject>
 
-using DisplayInter = org::deepin::dde::Display1;
+using DisplayInter = org::lingmo::Display1;
 
 class DisplayModel : public QObject
 {

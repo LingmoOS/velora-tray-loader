@@ -9,9 +9,9 @@
 
 LunarDBusInterface::LunarDBusInterface(QObject* parent)
     : QObject(parent)
-    , m_huangLiInter(new QDBusInterface("com.deepin.dataserver.Calendar",
-          "/com/deepin/dataserver/Calendar/HuangLi",
-          "com.deepin.dataserver.Calendar.HuangLi",
+    , m_huangLiInter(new QDBusInterface("com.lingmo.dataserver.Calendar",
+          "/com/lingmo/dataserver/Calendar/HuangLi",
+          "com.lingmo.dataserver.Calendar.HuangLi",
           QDBusConnection::sessionBus(),
           parent))
 {

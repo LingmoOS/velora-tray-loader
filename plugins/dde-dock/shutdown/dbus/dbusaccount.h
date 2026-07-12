@@ -15,7 +15,7 @@
 #include <QtDBus/QtDBus>
 
 /*
- * Proxy class for interface org.deepin.dde.Accounts1
+ * Proxy class for interface org.lingmo.Accounts1
  */
 class DBusAccount: public QDBusAbstractInterface
 {
@@ -28,7 +28,7 @@ class DBusAccount: public QDBusAbstractInterface
             return;
         }
         QString interfaceName = msg.arguments().at(0).toString();
-        if (interfaceName != "org.deepin.dde.Accounts1") {
+        if (interfaceName != "org.lingmo.Accounts1") {
             return;
         }
         QVariantMap changedProps = qdbus_cast<QVariantMap>(arguments.at(1).value<QDBusArgument>());
@@ -45,11 +45,11 @@ class DBusAccount: public QDBusAbstractInterface
     }
 public:
     static inline const char *staticService()
-    { return "org.deepin.dde.Accounts1"; }
+    { return "org.lingmo.Accounts1"; }
     static inline const char *staticInterfacePath()
-    { return "/org/deepin/dde/Accounts1"; }
+    { return "/org/lingmo/Accounts1"; }
     static inline const char *staticInterfaceName()
-    { return "org.deepin.dde.Accounts1"; }
+    { return "org.lingmo.Accounts1"; }
 
 public:
     explicit DBusAccount(QObject *parent = 0);
@@ -62,7 +62,7 @@ public:
 };
 
 //namespace org {
-//  namespace deepin {
+//  namespace lingmo {
 //    namespace dde {
 //      typedef ::DBusAccount Accounts;
 //    }

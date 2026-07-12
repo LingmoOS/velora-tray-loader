@@ -12,14 +12,14 @@
 
 #include "inputdevice1keyboardinterface.h"
 
-using Keyboard = org::deepin::dde::inputdevice1::Keyboard;
+using Keyboard = org::lingmo::inputdevice1::Keyboard;
 
 class DBusAdaptors : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.deepin.dde.Keyboard1")
+    Q_CLASSINFO("D-Bus Interface", "org.lingmo.Keyboard1")
 //    Q_CLASSINFO("D-Bus Introspection", ""
-//                "  <interface name=\"com.deepin.dde.Keyboard\">\n"
+//                "  <interface name=\"com.lingmo.Keyboard\">\n"
 //                "    <property access=\"read\" type=\"s\" name=\"layout\"/>\n"
 //                "    <signal name=\"layoutChanged\">"
 //                "        <arg name=\"layout\" type=\"s\"/>"

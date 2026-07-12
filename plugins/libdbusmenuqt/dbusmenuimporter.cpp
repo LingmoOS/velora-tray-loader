@@ -39,7 +39,7 @@ static QTime sChrono;
 
 Q_DECLARE_LOGGING_CATEGORY(DBUSMENUQT)
 
-Q_LOGGING_CATEGORY(DBUSMENUQT, "org.deepin.dde.dock.dbusmenuqt")
+Q_LOGGING_CATEGORY(DBUSMENUQT, "org.lingmo.dock.dbusmenuqt")
 
 #define DMRETURN_IF_FAIL(cond)                                                                                                                                 \
     if (!(cond)) {                                                                                                                                             \

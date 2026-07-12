@@ -16,7 +16,7 @@
 #include "display1interface.h"
 #include "display1monitorinterface.h"
 
-using DisplayInter = org::deepin::dde::Display1;
+using DisplayInter = org::lingmo::Display1;
 DCORE_USE_NAMESPACE
 
 class BrightnessController : public QObject, public Dtk::Core::DSingleton<BrightnessController>

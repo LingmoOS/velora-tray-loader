@@ -68,14 +68,14 @@ void AirplaneModePlugin::init(PluginProxyInterface *proxyInter)
     m_proxyInter = proxyInter;
 
     if (getAirplaneDconfig()) {
-        m_networkInter = new NetworkInter("org.deepin.dde.Network1", "/org/deepin/dde/Network1", QDBusConnection::sessionBus(), this);
+        m_networkInter = new NetworkInter("org.lingmo.Network1", "/org/lingmo/Network1", QDBusConnection::sessionBus(), this);
         connect(m_networkInter, &NetworkInter::WirelessAccessPointsChanged, this, &AirplaneModePlugin::updatePluginVisible);
 
-        m_bluetoothInter = new BluetoothInter("org.deepin.dde.Bluetooth1", "/org/deepin/dde/Bluetooth1", QDBusConnection::sessionBus(), this);
+        m_bluetoothInter = new BluetoothInter("org.lingmo.Bluetooth1", "/org/lingmo/Bluetooth1", QDBusConnection::sessionBus(), this);
         connect(m_bluetoothInter, &BluetoothInter::AdapterAdded, this, &AirplaneModePlugin::updatePluginVisible);
         connect(m_bluetoothInter, &BluetoothInter::AdapterRemoved, this, &AirplaneModePlugin::updatePluginVisible);
 
-        QDBusConnection::systemBus().connect("org.deepin.dde.AirplaneMode1",
+        QDBusConnection::systemBus().connect("org.lingmo.AirplaneMode1",
                                              "/org/deepin/dde/AirplaneMode1",
                                              "org.freedesktop.DBus.Properties",
                                              "PropertiesChanged",
@@ -217,7 +217,7 @@ bool AirplaneModePlugin::supportAirplaneMode() const
     }
 
     // 蓝牙和无线网络,只要有其中一个就允许显示飞行模式
-    QDBusInterface inter("org.deepin.dde.Bluetooth1",
+    QDBusInterface inter("org.lingmo.Bluetooth1",
                     "/org/deepin/dde/Bluetooth1",
                     "org.deepin.dde.Bluetooth1",
                     QDBusConnection::systemBus());

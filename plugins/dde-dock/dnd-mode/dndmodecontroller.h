@@ -15,7 +15,7 @@
 
 #define KEY_DNDMODE         0
 
-using NotifyInter = org::deepin::dde::Notification1;
+using NotifyInter = org::lingmo::Notification1;
 
 class DndModeController : public QObject, public Dtk::Core::DSingleton<DndModeController>
 {
@@ -40,8 +40,8 @@ Q_SIGNALS:
 
 private:
     DndModeController()
-        : m_dConfig(Dtk::Core::DConfig::create("org.deepin.dde.shell", "org.deepin.dde.shell.notification", QString(), this))
-        , m_notifyInter(new NotifyInter("org.deepin.dde.Notification1", "/org/deepin/dde/Notification1", QDBusConnection::sessionBus(), this))
+        : m_dConfig(Dtk::Core::DConfig::create("org.lingmo.dde.shell", "org.lingmo.dde.shell.notification", QString(), this))
+        , m_notifyInter(new NotifyInter("org.lingmo.Notification1", "/org/lingmo/Notification1", QDBusConnection::sessionBus(), this))
         , m_dndModeEnabled(false)
     {
         if (!m_dConfig) {

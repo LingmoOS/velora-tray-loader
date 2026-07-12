@@ -1,4 +1,4 @@
-     <interface name="org.deepin.dde.Display1.Monitor">
+     <interface name="org.lingmo.Display1.Monitor">
           <method name="Enable">
                <arg type="b" direction="in"></arg>
           </method>

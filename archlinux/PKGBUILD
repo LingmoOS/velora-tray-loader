@@ -1,15 +1,15 @@
 # Maintainer: justforlxz <justforlxz@gmail.com>
 
 pkgname=velora-tray-loader-git
-_pkgname=velora-tray-loader
+_pkgname=lingmo-tray-loader
 pkgver=0.0.1
 pkgrel=1
 pkgdesc='New System Tray'
-sourcename=velora-tray-loader
+sourcename=lingmo-tray-loader
 sourcetars=("$sourcename"_"$pkgver".tar.xz)
 sourcedir="$sourcename"
 arch=('x86_64' 'aarch64')
-url="https://github.com/LingmoOS/velora-tray-loader"
+url="https://github.com/LingmoOS/lingmo-tray-loader"
 license=('LGPL3')
 depends=('qt5-wayland'
          'dtkgui-git'
@@ -32,8 +32,8 @@ makedepends=('git'
              'extra-cmake-modules'
              'deepin-qt-dbus-factory'
 )
-conflicts=('velora-tray-loader')
-provides=('velora-tray-loader')
+conflicts=('lingmo-tray-loader')
+provides=('lingmo-tray-loader')
 groups=('lingmo-git')
 source=("${sourcetars[@]}")
 sha512sums=('SKIP')

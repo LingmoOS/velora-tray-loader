@@ -16,7 +16,7 @@
 
 #include <QPushButton>
 
-using  DBusBluetooth = org::deepin::dde::Bluetooth1;
+using  DBusBluetooth = org::lingmo::Bluetooth1;
 
 DWIDGET_USE_NAMESPACE
 

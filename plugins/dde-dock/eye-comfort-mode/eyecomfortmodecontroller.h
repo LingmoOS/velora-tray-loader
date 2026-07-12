@@ -12,7 +12,7 @@
 #include <QObject>
 #include <QDBusInterface>
 
-using DBusTheme = org::deepin::dde::Appearance1;
+using DBusTheme = org::lingmo::Appearance1;
 
 class EyeComfortModeController : public QObject, public Dtk::Core::DSingleton<EyeComfortModeController>
 {

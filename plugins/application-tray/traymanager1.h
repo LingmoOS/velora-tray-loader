@@ -21,7 +21,7 @@ typedef QList<uint> TrayList;
 
 class TrayManager1Adaptor;
 /**
- * @brief TrayManager1 implements the org.deepin.dde.TrayManager1 DBus interface
+ * @brief TrayManager1 implements the org.lingmo.TrayManager1 DBus interface
  *
  * This class manages all embedded X11 tray icons and exposes them via DBus.
  * It maintains a list of TrayManagerProxy objects and emits signals when
@@ -30,7 +30,7 @@ class TrayManager1Adaptor;
 class TrayManager1 : public QObject, protected QDBusContext
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.deepin.dde.TrayManager1")
+    Q_CLASSINFO("D-Bus Interface", "org.lingmo.TrayManager1")
     Q_PROPERTY(TrayList TrayIcons READ trayIcons)
 
 public:

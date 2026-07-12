@@ -14,7 +14,7 @@
 
 const QString dbusService = "com.deepin.Cooperation.NetworkDisplay";
 const QString dbusPath = "/com/deepin/Cooperation/NetworkDisplay";
-const QString dbusInterface = "com.deepin.Cooperation.NetworkDisplay";
+const QString dbusInterface = "com.lingmo.Cooperation.NetworkDisplay";
 const QString sinkInterface = "com.deepin.Cooperation.NetworkDisplay.Sink";
 
 DCORE_USE_NAMESPACE

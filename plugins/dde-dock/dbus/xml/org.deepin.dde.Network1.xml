@@ -1,5 +1,5 @@
 
-     <interface name="org.deepin.dde.Network1">
+     <interface name="org.lingmo.Network1">
           <method name="ActivateAccessPoint">
                <arg type="s" direction="in"></arg>
                <arg type="o" direction="in"></arg>

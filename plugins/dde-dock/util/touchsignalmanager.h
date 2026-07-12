@@ -9,7 +9,7 @@
 
 #include <com_deepin_daemon_gesture.h>
 
-using Gesture = com::deepin::daemon::Gesture;
+using Gesture = com::lingmo::daemon::Gesture;
 
 class TouchSignalManager : public QObject
 {

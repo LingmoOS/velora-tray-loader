@@ -90,7 +90,7 @@ BluetoothApplet::BluetoothApplet(AdaptersManager *adapterManager, QWidget *paren
     , m_settingBtn(new JumpSettingButton(QIcon::fromTheme("bluetooth-open"), tr("Bluetooth settings"), this))
     , m_mainLayout(new QVBoxLayout(this))
     , m_contentLayout(new QVBoxLayout(m_contentWidget))
-    , m_airPlaneModeInter(new DBusAirplaneMode("org.deepin.dde.AirplaneMode1", "/org/deepin/dde/AirplaneMode1", QDBusConnection::systemBus(), this))
+    , m_airPlaneModeInter(new DBusAirplaneMode("org.lingmo.AirplaneMode1", "/org/lingmo/AirplaneMode1", QDBusConnection::systemBus(), this))
     , m_airplaneModeEnable(false)
     , m_minHeight(0)
 {

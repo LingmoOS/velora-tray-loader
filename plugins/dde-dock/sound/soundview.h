@@ -16,7 +16,7 @@
 
 #define SOUND_KEY "sound-item-key"
 
-using DBusSink = org::deepin::dde::audio1::Sink;
+using DBusSink = org::lingmo::audio1::Sink;
 
 namespace Dock {
 class TipsWidget;

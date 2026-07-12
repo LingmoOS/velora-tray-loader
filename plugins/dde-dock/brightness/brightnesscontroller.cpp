@@ -16,8 +16,8 @@ const QString DisplayInterface("org.deepin.dde.Display1");
 
 BrightnessController::BrightnessController(QObject *parent)
     : QObject(parent)
-    , m_displayInter(DisplayInterface, "/org/deepin/dde/Display1", QDBusConnection::sessionBus(), this)
-    , m_displayDBusInter(new QDBusInterface("org.deepin.dde.Display1",
+    , m_displayInter(DisplayInterface, "/org/lingmo/Display1", QDBusConnection::sessionBus(), this)
+    , m_displayDBusInter(new QDBusInterface("org.lingmo.Display1",
                                             "/org/deepin/dde/Display1",
                                             "org.deepin.dde.Display1",
                                             QDBusConnection::sessionBus()))

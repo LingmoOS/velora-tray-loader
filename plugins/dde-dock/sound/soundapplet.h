@@ -25,8 +25,8 @@
 
 DWIDGET_USE_NAMESPACE
 
-using DBusAudio = org::deepin::dde::Audio1;
-using DBusSink = org::deepin::dde::audio1::Sink;
+using DBusAudio = org::lingmo::Audio1;
+using DBusSink = org::lingmo::audio1::Sink;
 
 class HorizontalSeparator;
 

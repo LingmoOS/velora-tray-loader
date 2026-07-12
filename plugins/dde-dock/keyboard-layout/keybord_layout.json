@@ -3,7 +3,7 @@
         "text": {
             "dbus_service": "com.deepin.dde.Keyboard",
             "dbus_path": "/com/deepin/dde/Keyboard",
-            "dbus_interface": "com.deepin.dde.Keyboard",
+            "dbus_interface": "com.lingmo.Keyboard",
             "dbus_properties": "layout"
         }
     },
@@ -11,7 +11,7 @@
         "trigger": {
             "dbus_service": "com.deepin.dde.Keyboard",
             "dbus_path": "/com/deepin/dde/Keyboard",
-            "dbus_interface": "com.deepin.dde.Keyboard",
+            "dbus_interface": "com.lingmo.Keyboard",
             "dbus_method": "onClicked"
         }
     }

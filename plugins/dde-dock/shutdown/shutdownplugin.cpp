@@ -46,7 +46,7 @@ ShutdownPlugin::ShutdownPlugin(QObject *parent)
     , m_pluginLoaded(false)
     , m_dockIcon(nullptr)
     , m_tipsLabel(new TipsWidget)
-    , m_sessionManagerInter(new SessionManager("org.deepin.dde.SessionManager1", "/org/deepin/dde/SessionManager1", QDBusConnection::sessionBus(), this))
+    , m_sessionManagerInter(new SessionManager("org.lingmo.SessionManager1", "/org/lingmo/SessionManager1", QDBusConnection::sessionBus(), this))
     , m_dconfig(DConfig::create("org.deepin.dde.tray-loader", "org.deepin.dde.dock.plugin.shutdown", QString(), this))
     , m_lastoreDConfig(DConfig::create("org.deepin.dde.lastore", "org.deepin.dde.lastore", "", this))
 {
@@ -321,7 +321,7 @@ void ShutdownPlugin::invokedMenuItem(const QString &itemKey, const QString &menu
         activation->requestToken();
     } else if (menuId == "Lock") {
         if (QFile::exists(ICBC_CONF_FILE)) {
-            QDBusMessage send = QDBusMessage::createMethodCall("org.deepin.dde.LockFront1", "/org/deepin/dde/LockFront1", "org.deepin.dde.LockFront1", "SwitchTTYAndShow");
+            QDBusMessage send = QDBusMessage::createMethodCall("org.lingmo.LockFront1", "/org/lingmo/LockFront1", "org.lingmo.LockFront1", "SwitchTTYAndShow");
             QDBusConnection conn = QDBusConnection::connectToBus("unix:path=/run/user/1000/bus", "unix:path=/run/user/1000/bus");
             QDBusMessage reply = conn.call(send);
 #ifdef QT_DEBUG
@@ -329,12 +329,12 @@ void ShutdownPlugin::invokedMenuItem(const QString &itemKey, const QString &menu
 #endif
 
         } else {
-            QProcess::execute("bash -c \"originmap=$(setxkbmap -query | grep option | awk -F ' ' '{print $2}');/usr/bin/setxkbmap -option grab:break_actions&&/usr/bin/xdotool key XF86Ungrab&&dbus-send --print-reply --dest=org.deepin.dde.LockFront1 /org/deepin/dde/LockFront1 org.deepin.dde.LockFront1.Show&&setxkbmap -option $originmap\"");
+            QProcess::execute("bash -c \"originmap=$(setxkbmap -query | grep option | awk -F ' ' '{print $2}');/usr/bin/setxkbmap -option grab:break_actions&&/usr/bin/xdotool key XF86Ungrab&&dbus-send --print-reply --dest=org.lingmo.LockFront1 /org/lingmo/LockFront1 org.lingmo.LockFront1.Show&&setxkbmap -option $originmap\"");
         }
     } else
         DDBusSender()
-        .service("org.deepin.dde.ShutdownFront1")
-        .interface("org.deepin.dde.ShutdownFront1")
+        .service("org.lingmo.ShutdownFront1")
+        .interface("org.lingmo.ShutdownFront1")
         .path("/org/deepin/dde/ShutdownFront1")
         .method(QString(menuId))
         .call();

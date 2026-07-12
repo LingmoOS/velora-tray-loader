@@ -1,4 +1,4 @@
 usr/include/dde-dock
-usr/include/velora-tray-loader/protocol
+usr/include/lingmo-tray-loader/protocol
 usr/lib/*/pkgconfig
 usr/lib/*/cmake

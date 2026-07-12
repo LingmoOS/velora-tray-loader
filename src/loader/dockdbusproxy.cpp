@@ -9,9 +9,9 @@
 #include <QDBusPendingCall>
 #include <QDBusPendingReply>
 
-const static QString DockService = "org.deepin.dde.Dock1";
-const static QString DockPath = "/org/deepin/dde/Dock1";
-const static QString DockInterface = "org.deepin.dde.Dock1";
+const static QString DockService = "org.lingmo.Dock1";
+const static QString DockPath = "/org/lingmo/Dock1";
+const static QString DockInterface = "org.lingmo.Dock1";
 static void registerDockItemType()
 {
     qRegisterMetaType<DockItemInfo>("DockItemInfo");

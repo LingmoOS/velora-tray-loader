@@ -14,7 +14,7 @@
 
 #include <QLabel>
 
-using SystemPowerInter = org::deepin::dde::Power1;
+using SystemPowerInter = org::lingmo::Power1;
 
 DCORE_BEGIN_NAMESPACE
 class DConfig;

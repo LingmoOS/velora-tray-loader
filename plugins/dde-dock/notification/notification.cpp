@@ -96,9 +96,9 @@ void Notification::watchNotification(bool newNotification)
     });
 
     auto ret = QtConcurrent::run([this, newNotification](){
-        m_dbus.reset(new QDBusInterface("org.deepin.dde.Notification1", "/org/deepin/dde/Notification1", "org.deepin.dde.Notification1"));
-        // Refresh icon for the first time, cause org.deepin.dde.Notification1 might depend on dock's DBus,
-        // we should not call org.deepin.dde.Notification1 in the main thread before dock's dbus is initialized.
+        m_dbus.reset(new QDBusInterface("org.lingmo.Notification1", "/org/lingmo/Notification1", "org.lingmo.Notification1"));
+        // Refresh icon for the first time, cause org.lingmo.Notification1 might depend on dock's DBus,
+        // we should not call org.lingmo.Notification1 in the main thread before dock's dbus is initialized.
         // Just refresh icon in the other thread.
         updateDndModeState();
 
@@ -116,7 +116,7 @@ void Notification::watchNotification(bool newNotification)
         const QString countChangedSlot = newNotification ?
                                              "RecordCountChanged" :
                                              "recordCountChanged";
-        QDBusConnection::sessionBus().connect("org.deepin.dde.Notification1",
+        QDBusConnection::sessionBus().connect("org.lingmo.Notification1",
                                               "/org/deepin/dde/Notification1",
                                               "org.deepin.dde.Notification1",
                                               countChangedSlot,
@@ -125,14 +125,14 @@ void Notification::watchNotification(bool newNotification)
                                               );
 
         if (newNotification) {
-            QDBusConnection::sessionBus().connect("org.deepin.dde.Notification1",
+            QDBusConnection::sessionBus().connect("org.lingmo.Notification1",
                                                   "/org/deepin/dde/Notification1",
                                                   "org.deepin.dde.Notification1",
                                                   "NotificationStateChanged",
                                                   this,
                                                   SLOT(onNotificationStateChanged(qint64, int))
                                                   );
-            auto ret = QDBusConnection::sessionBus().connect("org.deepin.dde.Widgets1",
+            auto ret = QDBusConnection::sessionBus().connect("org.lingmo.Widgets1",
                                                   "/org/deepin/dde/Widgets1",
                                                   "org.deepin.dde.Widgets1",
                                                   "VisibleChanged",

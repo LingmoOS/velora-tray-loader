@@ -17,7 +17,7 @@
 #define POWERSAVE   "powersave"   // 节能模式
 #define BALANCEPERFORMANCE "balance_performance" // 性能模式
 
-using SysPowerInter = org::deepin::dde::Power1;
+using SysPowerInter = org::lingmo::Power1;
 
 class PerformanceModeController : public QObject, public Dtk::Core::DSingleton<PerformanceModeController>
 {
@@ -47,7 +47,7 @@ private:
         , m_balanceSupported(false)
         , m_powerSaveSupported(false)
         , m_currentMode(QString())
-        , m_sysPowerInter(new SysPowerInter("org.deepin.dde.Power1", "/org/deepin/dde/Power1", QDBusConnection::systemBus(), this))
+        , m_sysPowerInter(new SysPowerInter("org.lingmo.Power1", "/org/lingmo/Power1", QDBusConnection::systemBus(), this))
     {
         m_sysPowerInter->setSync(false);
         const QList<QPair<QString, QString>> powerModeList = {
@@ -63,8 +63,8 @@ private:
             {POWERSAVE, "IsPowerSaveSupported"}
         };
 
-        QDBusInterface interface("org.deepin.dde.Power1",
-                                 "/org/deepin/dde/Power1",
+        QDBusInterface interface("org.lingmo.Power1",
+                                 "/org/lingmo/dde/Power1",
                                  "org.freedesktop.DBus.Properties",
                                  QDBusConnection::systemBus());
 
@@ -77,7 +77,7 @@ private:
             return false;
         };
         for (const auto &pair : powerModeList) {
-            bool powerModeData = getPowerModeProperty(interface, "org.deepin.dde.Power1", powerModeProperty.value(pair.first));
+            bool powerModeData = getPowerModeProperty(interface, "org.lingmo.Power1", powerModeProperty.value(pair.first));
             if (powerModeData) {
                 m_modeList.append(pair);
             }
@@ -90,7 +90,7 @@ private:
             }
         }
 
-        QDBusMessage reply = interface.call("Get", "org.deepin.dde.Power1", "Mode");
+        QDBusMessage reply = interface.call("Get", "org.lingmo.Power1", "Mode");
         QList<QVariant> outArgs = reply.arguments();
         if (outArgs.length() > 0) {
             m_currentMode = outArgs.at(0).value<QDBusVariant>().variant().toString();

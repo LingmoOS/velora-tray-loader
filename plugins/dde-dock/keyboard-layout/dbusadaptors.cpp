@@ -25,12 +25,12 @@ const QString KDB_LAYOUT_DCC_NAME = "keyboardLayout";
 // get fcitx status and data
 const QString FCITX_ADDRESSS = "org.fcitx.Fcitx";
 
-Q_LOGGING_CATEGORY(KEYBOARD_LAYOUT, "org.deepin.dde.dock.keyboardLayout")
+Q_LOGGING_CATEGORY(KEYBOARD_LAYOUT, "org.lingmo.dock.keyboardLayout")
 
 DBusAdaptors::DBusAdaptors(QObject *parent)
     : QDBusAbstractAdaptor(parent),
-      m_keyboard(new Keyboard("org.deepin.dde.InputDevices1",
-                              "/org/deepin/dde/InputDevice1/Keyboard",
+      m_keyboard(new Keyboard("org.lingmo.InputDevices1",
+                              "/org/lingmo/InputDevice1/Keyboard",
                               QDBusConnection::sessionBus(), this)),
     m_fcitxRunning(false),
     m_inputmethod(nullptr),
@@ -179,7 +179,7 @@ void DBusAdaptors::handleActionTriggered(QAction *action)
     if (action == m_addLayoutAction) {
         auto *activation = new tray::XdgActivation(this);
         connect(activation, &tray::XdgActivation::tokenReady, this, [activation](const QString &token) {
-            QStringList args {"--by-user", "org.deepin.dde.control-center"};
+            QStringList args {"--by-user", "org.lingmo.control-center"};
             if (!token.isEmpty())
                 args << "-e" << "XDG_ACTIVATION_TOKEN=" + token;
             args << "--" << "-p" << "keyboard/Keyboard Layout/Add Keyboard Layout";
@@ -199,7 +199,7 @@ void DBusAdaptors::onGSettingsChanged(const QString &key)
 {
     Q_UNUSED(key);
 
-#if 0 // TODO origin gsettings: "com.deepin.dde.dock.module.keyboard"
+#if 0 // TODO origin gsettings: "com.lingmo.dock.module.keyboard"
     // 键盘布局插件处显示的内容就是QLabel中的内容，有文字了就显示，没有文字就不显示了
     if (m_gsettings && m_gsettings->keys().contains("enable")) {
         const bool enable = m_gsettings->get("enable").toBool();
@@ -324,14 +324,14 @@ void DBusAdaptors::onPropertyChanged(QString name, QVariantMap map, QStringList 
 
 void DBusAdaptors::setKeyboardLayoutGsettings()
 {
-    // TODO origin gsettings: "com.deepin.dde.keybinding.system.enable"
+    // TODO origin gsettings: "com.lingmo.keybinding.system.enable"
 #if 0
     // while fcitx is running, disable keyboard switch shortcut, enable it after fcitx stopped
     if (m_keybingEnabled && m_keybingEnabled->keys().contains(KDB_LAYOUT_KEYBINDING_KEY)) {
         m_keybingEnabled->set(KDB_LAYOUT_KEYBINDING_KEY, QVariant(!m_fcitxRunning));
     }
 
-    // TODO origin gsettings: "com.deepin.dde.control-center"
+    // TODO origin gsettings: "com.lingmo.control-center"
     // hide keyboard layout setttings in dde-control-center, resume it after fcitx stopped
     if (m_dccSettings && m_dccSettings->keys().contains(KDB_LAYOUT_DCC_NAME)) {
         m_dccSettings->set(KDB_LAYOUT_DCC_NAME, QVariant(!m_fcitxRunning));

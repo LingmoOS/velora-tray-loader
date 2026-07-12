@@ -45,8 +45,8 @@ void KeyboardPlugin::init(PluginProxyInterface *proxyInter)
             m_dbusAdaptors = new DBusAdaptors(this);
         }
 
-        QDBusConnection::sessionBus().registerService("org.deepin.dde.Keyboard1");
-        QDBusConnection::sessionBus().registerObject("/org/deepin/dde/Keyboard1", "org.deepin.dde.Keyboard1", this);
+        QDBusConnection::sessionBus().registerService("org.lingmo.Keyboard1");
+        QDBusConnection::sessionBus().registerObject("/org/lingmo/Keyboard1", "org.lingmo.Keyboard1", this);
     }
 }
 

@@ -9,7 +9,7 @@
 
 #include "timedate1interface.h"
 
-using Timedate1Inter = org::deepin::dde::Timedate1;
+using Timedate1Inter = org::lingmo::Timedate1;
 
 class QLabel;
 class RegionFormat;

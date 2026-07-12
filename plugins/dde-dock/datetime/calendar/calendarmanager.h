@@ -16,7 +16,7 @@ struct ShowDateRange {
     QDate stopDate;
 };
 
-using DaemonTimeDate = org::deepin::dde::Timedate1 ;
+using DaemonTimeDate = org::lingmo::Timedate1 ;
 
 class CScheduleBaseWidget;
 /**

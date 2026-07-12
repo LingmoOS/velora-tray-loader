@@ -12,7 +12,7 @@
 #include "airplanemode1interface.h"
 #include "login1interface.h"
 
-using DBusAirplaneMode = org::deepin::dde::AirplaneMode1;
+using DBusAirplaneMode = org::lingmo::AirplaneMode1;
 using Login1Manager = org::freedesktop::login1::Manager;
 
 class AirplaneModeController : public QObject, public Dtk::Core::DSingleton<AirplaneModeController>

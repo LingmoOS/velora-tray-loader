@@ -1,4 +1,4 @@
-Source: velora-tray-loader
+Source: lingmo-tray-loader
 Section: unknown
 Priority: optional
 Maintainer: Lingmo OS Team <team@lingmo.org>
@@ -31,11 +31,11 @@ Build-Depends: debhelper-compat ( =12),
          libgmock-dev,
          libxcursor-dev,
          libkf6windowsystem-dev,
-         dde-api-dev (>>5.6.3)
+         lingmo-api-dev (>>5.6.3)
 Standards-Version: 4.5.6
 Homepage: http://lingmo.org/
 
-Package: velora-tray-loader-dev
+Package: lingmo-tray-loader-dev
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts:
@@ -47,7 +47,7 @@ Provides:
 Description: deepin desktop-environment - tray plugins module development files
  Tray plugins module development files of deepin desktop-environment
 
-Package: dde-wirelesscasting-plugin
+Package: lingmo-wirelesscasting-plugin
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: deepin desktop-environment - wireless casting plugin for dde-dock

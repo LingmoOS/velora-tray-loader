@@ -206,7 +206,7 @@ void PowerPlugin::loadPlugin()
         m_proxyInter->requestSetAppletVisible(this, POWER_KEY, false);
     });
 
-    m_systemPowerInter = new SystemPowerInter("org.deepin.dde.Power1", "/org/deepin/dde/Power1", QDBusConnection::systemBus(), this);
+    m_systemPowerInter = new SystemPowerInter("org.lingmo.Power1", "/org/lingmo/Power1", QDBusConnection::systemBus(), this);
     m_systemPowerInter->setSync(true);
 
     connect(m_config, &Dtk::Core::DConfig::valueChanged, this, &PowerPlugin::onDConfigValueChanged);

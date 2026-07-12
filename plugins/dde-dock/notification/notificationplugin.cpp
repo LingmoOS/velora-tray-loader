@@ -99,9 +99,9 @@ const QString NotificationPlugin::itemCommand(const QString &itemKey)
     if (m_notification)
         m_notification->resetNotificationStatus();
     if (!newNotifications()) {
-        return QString("dbus-send --session --print-reply --dest=org.deepin.dde.Widgets1 /org/deepin/dde/Widgets1 org.deepin.dde.Widgets1.Toggle");
+        return QString("dbus-send --session --print-reply --dest=org.lingmo.Widgets1 /org/lingmo/Widgets1 org.lingmo.Widgets1.Toggle");
     }
-    return QString("dbus-send --session --print-reply --dest=org.deepin.dde.shell /org/deepin/dde/shell/notification/center org.deepin.dde.shell.notification.center.Toggle");
+    return QString("dbus-send --session --print-reply --dest=org.lingmo.shell /org/lingmo/shell/notification/center org.lingmo.shell.notification.center.Toggle");
 }
 
 const QString NotificationPlugin::itemContextMenu(const QString &itemKey)

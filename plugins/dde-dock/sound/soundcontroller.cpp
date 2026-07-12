@@ -7,7 +7,7 @@
 
 SoundController::SoundController(QObject *parent)
     : QObject(parent)
-    , m_audioInter(new DBusAudio("org.deepin.dde.Audio1", "/org/deepin/dde/Audio1", QDBusConnection::sessionBus(), this))
+    , m_audioInter(new DBusAudio("org.lingmo.Audio1", "/org/lingmo/Audio1", QDBusConnection::sessionBus(), this))
     , m_defaultSinkInter(nullptr)
     , m_dconfig(DConfig::create("org.deepin.dde.tray-loader", "org.deepin.dde.dock.plugin.sound", QString(), this))
 {
@@ -85,7 +85,7 @@ void SoundController::onDefaultSinkChanged(const QDBusObjectPath &path)
         return;
     }
 
-    m_defaultSinkInter = new DBusSink("org.deepin.dde.Audio1", path.path(), QDBusConnection::sessionBus(), this);
+    m_defaultSinkInter = new DBusSink("org.lingmo.Audio1", path.path(), QDBusConnection::sessionBus(), this);
     // 某些机型，如flmx，add和active先后时序有问题，active触发时，设备add还没执行，导致找不到需要active的设备项
     // 这里手动刷新一下设备列表，再执行active操作
     SoundModel::ref().setCardsInfo(m_audioInter->cardsWithoutUnavailable());

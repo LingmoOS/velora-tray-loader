@@ -15,8 +15,8 @@
 #include "network1interface.h"
 #include "bluetooth1interface.h"
 
-using NetworkInter = org::deepin::dde::Network1;
-using BluetoothInter = org::deepin::dde::Bluetooth1;
+using NetworkInter = org::lingmo::Network1;
+using BluetoothInter = org::lingmo::Bluetooth1;
 DCORE_BEGIN_NAMESPACE
 class DConfig;
 DCORE_END_NAMESPACE

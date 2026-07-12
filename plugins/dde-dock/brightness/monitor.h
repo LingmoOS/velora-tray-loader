@@ -10,7 +10,7 @@
 
 #include "display1monitorinterface.h"
 
-using MonitorInter = org::deepin::dde::display1::Monitor;
+using MonitorInter = org::lingmo::display1::Monitor;
 
 
 class BrightnessController;
