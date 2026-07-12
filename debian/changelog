@@ -1,4 +1,4 @@
-velora-tray-loader (2.1.2.lingmo.1) unstable; urgency=medium
+lingmo-tray-loader (2.1.2.lingmo.1) unstable; urgency=medium
 
   * Lingmo namespace migration.
 
