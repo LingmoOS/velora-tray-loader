@@ -58,7 +58,7 @@ install(FILES ${INTERFACES}
 ## protocol
 file(GLOB PROTOCOL "src/protocol/*.xml")
 install(FILES ${PROTOCOL}
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/velora-tray-loader/protocol)
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/lingmo-tray-loader/protocol)
 
 configure_file(velora-tray-loader.pc.in ${CMAKE_BINARY_DIR}/velora-tray-loader.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/velora-tray-loader.pc
